@@ -61,12 +61,8 @@
 <body>
 <div class="chat-container" id="chat-container">
     <div class="message other-message">
-        <div class="meta">Anonymous User</div>
-        <div>Hello there!</div>
-    </div>
-    <div class="message user-message">
-        <div class="meta">You</div>
-        <div>Hi! How are you?</div>
+        <div class="meta">Bot</div>
+        <div>Hello! How can I help you today?</div>
     </div>
 </div>
 <div>
@@ -79,15 +75,49 @@
         var messageInput = document.getElementById('message-input');
         var message = messageInput.value.trim();
         if (message !== '') {
-            var chatContainer = document.getElementById('chat-container');
-            var newMessage = document.createElement('div');
-            newMessage.className = 'message user-message';
-            newMessage.innerHTML = `
-                <div class="meta">You</div>
-                <div>${message}</div>
-            `;
-            chatContainer.appendChild(newMessage);
+            appendUserMessage(message);
             messageInput.value = '';
+            setTimeout(function() {
+                simulateBotResponse(message);
+            }, 500); // Simulating a delayed response from the bot
+        }
+    }
+
+    function appendUserMessage(message) {
+        var chatContainer = document.getElementById('chat-container');
+        var newMessage = document.createElement('div');
+        newMessage.className = 'message user-message';
+        newMessage.innerHTML = `
+            <div class="meta">You</div>
+            <div>${message}</div>
+        `;
+        chatContainer.appendChild(newMessage);
+    }
+
+    function simulateBotResponse(userMessage) {
+        var chatContainer = document.getElementById('chat-container');
+        var newMessage = document.createElement('div');
+        newMessage.className = 'message other-message';
+        newMessage.innerHTML = `
+            <div class="meta">Bot</div>
+            <div>${getBotResponse(userMessage)}</div>
+        `;
+        chatContainer.appendChild(newMessage);
+    }
+
+    function getBotResponse(message) {
+        // Simple bot responses based on user input
+        var lowerCaseMessage = message.toLowerCase();
+        if (lowerCaseMessage.includes('hello') || lowerCaseMessage.includes('hi')) {
+            return "Hello there! How can I assist you?";
+        } else if (lowerCaseMessage.includes('how are you')) {
+            return "I'm just a bot, but thanks for asking!";
+        } else if (lowerCaseMessage.includes('bye')) {
+            return "Goodbye! Have a great day!";
+        } else if (lowerCaseMessage.includes('fuck')) {
+            return "That's no way to speak in front of a lady!"
+        } else {
+            return "I'm sorry, I didn't understand that.";
         }
     }
 </script>
